@@ -68,8 +68,8 @@
             // onEachFeature
             onEachFeature: function (feature, layer) {
                 // variable popup content
-                var gambar = feature.properties.image
-                    "<br><img src='images/" + feature.properties.image + "' width='200'>";
+                var gambar = feature.properties.image ?
+                    "<br><img src='images/" + feature.properties.image + "' width='200'>" : "";
 
                 var popup_content = "Nama: " + feature.properties.TOPONIMI + "<br>" +
                     "Koordinat: " + feature.geometry.coordinates[1] + ", " +
@@ -108,15 +108,15 @@
             // onEachFeature
             onEachFeature: function (feature, layer) {
                 // variable popup content
-                var popup_content = "Fungsi: " + feature.properties.fungsi + "<br>" +
-                    "Panjang (m): " + feature.properties.panjang_m;
+                var popup_content = "Fungsi: " + feature.properties.NAMA_UNSUR + "<br>" +
+                    "Panjang (km): " + feature.properties.panjang_km;
 
                 layer.on({
                     click: function (e) {
                         jalan.bindPopup(popup_content);
                     },
                     mouseover: function (e) {
-                        jalan.bindTooltip(feature.properties.fungsi, {
+                        jalan.bindTooltip(feature.properties.NAMA_UNSUR, {
                             direction: "auto",
                             sticky: true,
                         });
@@ -153,7 +153,7 @@
                         jumlah_penduduk.bindPopup(popup_content);
                     },
                     mouseover: function (e) {
-                        jumlah_penduduk.bindTooltip(feature.properties.desa, {
+                        jumlah_penduduk.bindTooltip(feature.properties.WADMKC, {
                             direction: "auto",
                             sticky: true,
                         });
@@ -169,16 +169,13 @@
 
         // Control Layer
         var baseMaps = {
-            "OpenStreetMap": osm,
-            "Esri World Imagery": Esri_WorldImagery,
-            "Rupa Bumi Indonesia": rupabumiindonesia,
+            "OpenStreetMap": basemap,
         };
 
         var overlayMaps = {
-            "jalan": jalan,
-            "jumlah penduduk": jumlah_penduduk_lagi,
             "Toponimi": toponimi,
-            "Polygon": polygon,
+            "Jalan": jalan,
+            "Jumlah Penduduk": jumlah_penduduk,
         };
 
         var controllayer = L.control.layers(baseMaps, overlayMaps);
